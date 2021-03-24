@@ -1,0 +1,62 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BlogCore.AccesoDatos.Data.Interfaces;
+using BlogCore.AccesoDatos.Data.Repository;
+using BlogCore.Models.Entities;
+
+namespace BlogCore.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    public class CategoryController : Controller
+    {
+
+         public readonly IUnitOfWork _unitOfWork;
+
+        public CategoryController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Categoria categoria)
+        {
+            //valida lo del modelo ya esta conectado
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Categoria.Add(categoria);
+                _unitOfWork.Save();
+                return RedirectToAction(nameof(Index));
+            }   
+            
+
+            return View(categoria); 
+
+        }
+
+
+        #region LLAMADAS A API
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var rpta= Json(new {data = _unitOfWork.Categoria.GetAll() });
+            var hola = 2 + 1;
+            return rpta;
+        }
+        #endregion
+    }
+}
