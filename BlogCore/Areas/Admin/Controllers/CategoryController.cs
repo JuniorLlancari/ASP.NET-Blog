@@ -31,6 +31,37 @@ namespace BlogCore.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Categoria categoria = new Categoria();
+
+             categoria = _unitOfWork.Categoria.Get(id);
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+            return View(categoria);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Categoria categoria)
+        {
+            //valida lo del modelo ya esta conectado
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Categoria.Update(categoria);
+                _unitOfWork.Save();
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            return View(categoria);
+        }
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Categoria categoria)
@@ -54,8 +85,23 @@ namespace BlogCore.Areas.Admin.Controllers
         public IActionResult GetAll()
         {
             var rpta= Json(new {data = _unitOfWork.Categoria.GetAll() });
-            var hola = 2 + 1;
+           
             return rpta;
+        }
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var categoria = _unitOfWork.Categoria.Get(id);
+            if (categoria == null)
+            {
+                return Json(new { success = false, message = "Error al eliminar" });
+            }
+
+            _unitOfWork.Categoria.Remove(categoria);
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "Categoria borrada" });
+
         }
         #endregion
     }

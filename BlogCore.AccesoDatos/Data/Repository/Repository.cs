@@ -34,7 +34,7 @@ namespace BlogCore.AccesoDatos.Data.Repository
         {
             IQueryable<T> query = _dbSet;
 
-            return query.AsEnumerable();
+            return query.ToList();
 
             /*
                 var hola = _dbSet.AsEnumerable();
