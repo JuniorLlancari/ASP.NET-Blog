@@ -102,6 +102,9 @@ namespace BlogCore.Areas.Admin.Controllers
 
             return Json(new { success = true, message = "Categoria borrada" });
 
+
+
+
         }
         #endregion
     }

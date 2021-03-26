@@ -1,33 +1,35 @@
-﻿
-var dataTable;
+﻿var dataTable;
 
 $(document).ready(function () {
+    console.log('01')
+
     cargarDatatable();
     test();
+    console.log('ij')
 });
 
-
 function cargarDatatable() {
-   
-    dataTable = $("#tblCategory").DataTable({
+     
+    dataTable = $("#tblArticle").DataTable({
         "ajax": {
-            "url": "/admin/Category/GetAll",
+            "url": "/admin/Article/GetAll",
             "type": "GET",
             "datatype": "json"
         },
         "columns": [
             { "data": "id", "width": "5%" },
-            { "data": "nombre", "width": "50%" },
-            { "data": "orden", "width": "20%" },
+            { "data": "nombre", "width": "25%" },
+            { "data": "categoria.nombre", "width": "15%" },
+            { "data": "fechaCreacion", "width": "15%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `<div class="text-center">
-                            <a href='/Admin/Category/Edit/${data}' class='btn btn-success text-white' style='cursor:pointer; width:100px;'>
+                            <a href='/Admin/Article/Edit/${data}' class='btn btn-success text-white' style='cursor:pointer; width:100px;'>
                             <i class='fas fa-edit'></i> Editar
                             </a>
                             &nbsp;
-                            <a onclick=Delete('/Admin/Category/Delete/${data}') class='btn btn-danger text-white' style='cursor:pointer; width:100px;'>
+                            <a onclick=Delete("/Admin/Article/Delete/${data}") class='btn btn-danger text-white' style='cursor:pointer; width:100px;'>
                             <i class='fas fa-trash-alt'></i> Borrar
                             </a>
                             `;
@@ -39,8 +41,7 @@ function cargarDatatable() {
         },
         "width": "100%"
     });
- 
- }
+}
 
 function Delete(url) {
     swal({
@@ -68,11 +69,12 @@ function Delete(url) {
     });
 }
 
+
 function test() {
     $.ajax({
-        url: "/admin/Category/GetAll",
+        url: "/admin/Article/GetAll",
         type: "GET",
-        contentType:"application/json;charset=utf-8",
+        contentType: "application/json;charset=utf-8",
         datatype: "json"
     }).done(
         function (info) {

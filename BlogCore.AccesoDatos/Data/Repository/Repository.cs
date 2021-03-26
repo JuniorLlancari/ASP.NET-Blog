@@ -34,10 +34,8 @@ namespace BlogCore.AccesoDatos.Data.Repository
         {
             IQueryable<T> query = _dbSet;
 
-            return query.ToList();
-
-            /*
-                var hola = _dbSet.AsEnumerable();
+ 
+            
 
                 if (filter != null)
                 {
@@ -58,8 +56,8 @@ namespace BlogCore.AccesoDatos.Data.Repository
                     return orderBy(query).ToList();
                 }
 
-                return query.AsEnumerable();
-            */
+              return query.ToList();
+
         }
 
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter = null, string includeProperties = null)
