@@ -8,7 +8,7 @@ namespace BlogCore.AccesoDatos.Data.Interfaces
     {
         ICategoryRepository Categoria { get; }
         IArticleRepository Articulo { get; }
-
+        ISliderRepository Slider { get; }
         void Save();
 
     }
